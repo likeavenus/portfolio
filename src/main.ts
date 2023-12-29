@@ -246,6 +246,11 @@ let rotationZ = 0.001;
 function animate(time) {
   rotationZ += 0.000001;
   requestAnimationFrame(animate);
+  if (resizeRendererToDisplaySize(renderer)) {
+    const canvas = renderer.domElement;
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    camera.updateProjectionMatrix();
+  }
   controls.update();
   render();
 
@@ -269,3 +274,15 @@ function render() {
   renderer.render(scene, camera);
 }
 animate();
+
+function resizeRendererToDisplaySize(renderer: THREE.Renderer) {
+  const canvas = renderer.domElement;
+  const pixelRatio = window.devicePixelRatio;
+  const width = (canvas.clientWidth * pixelRatio) | 0;
+  const height = (canvas.clientHeight * pixelRatio) | 0;
+  const needResize = canvas.width !== width || canvas.height !== height;
+  if (needResize) {
+    renderer.setSize(width, height, false);
+  }
+  return needResize;
+}
