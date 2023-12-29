@@ -5,5 +5,6 @@ export default defineConfig({
     host: "localhost",
     port: 3000,
   },
+  base: "/portfolio/",
   assetsInclude: ["**/*.gltf", "**/*.fbx"],
 });
