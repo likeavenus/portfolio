@@ -35,27 +35,10 @@ export const generateTunnel = (parameters: TTunnelParams, scene: THREE.Scene) =>
     // position
     const i3 = i * 3;
     const radius = Math.random() * parameters.radius;
-    const branchAngle = ((i % parameters.branches) / parameters.branches) * Math.PI * 2;
-    const spinAngle = radius * parameters.spin;
-    const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : -1);
-    const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : -1);
-    const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : -1);
-    // positions[i3] = radius * Math.cos(branchAngle + spinAngle) + randomX;
-    // positions[i3 + 1] = randomY;
-    // positions[i3 + 2] = radius * Math.sin(branchAngle + spinAngle) + randomZ;
-    let randomness = Math.random() * 5;
     const angle = Math.random() * 7 * Math.PI * 2;
-    const shift = Math.random() * 100 * Math.PI * 2;
     positions[i3] = Math.sin(angle);
     positions[i3 + 1] = Math.cos(angle);
-    // positions[i3] = Math.sin(angle) * randomness;
-    // positions[i3 + 1] = Math.cos(angle) * randomness;
-    // positions[i3 + 2] = Math.sin(angle) * Math.random() * 100;
     positions[i3 + 2] = Math.random() * 100;
-    // if (positions[i3 + 2] < 90) {
-    //   positions[i3] = Math.sin(angle) * Math.random();
-    //   positions[i3 + 1] = Math.cos(angle) * Math.random();
-    // }
 
     // color
     const mixedColor = colorInside.clone();

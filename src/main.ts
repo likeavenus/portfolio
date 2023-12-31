@@ -44,8 +44,8 @@ const galaxyParameters = {
 
 const tunnelParameters = {
   count: 90000,
-  size: 0.001,
-  radius: 5,
+  size: 0.009,
+  radius: 1,
   branches: 3,
   spin: 1,
   randomness: 0.2,
@@ -57,7 +57,7 @@ const tunnelPoints = generateTunnel(tunnelParameters, scene);
 
 const pSphereParameters = {
   count: 190000,
-  size: 0.001,
+  size: 0.085,
   radius: 0.01,
   branches: 3,
   spin: 1,
@@ -68,7 +68,6 @@ const pSphereParameters = {
 };
 
 const { points: pSphere, positions: spherePositions, colors: sphereColors } = generatePSphere(pSphereParameters, scene);
-pSphere.position.z = 70;
 /** GUI */
 // gui
 //   .add(galaxyParameters, "count")
@@ -237,15 +236,18 @@ function animateExplosion() {
 let startExplosion = false;
 setTimeout(() => {
   startExplosion = true;
-}, 5600);
+}, 5500);
 pSphere.visible = false;
 
 // console.log(tunnelPoints);
-let rotationZ = 0.001;
-// let clock = new THREE.Clock();
-function animate(time) {
-  rotationZ += 0.000001;
+let time = 0;
+const clock = new THREE.Clock();
+
+function animate() {
+  const delta = clock.getDelta();
+  time += delta;
   requestAnimationFrame(animate);
+
   if (resizeRendererToDisplaySize(renderer)) {
     const canvas = renderer.domElement;
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
@@ -257,7 +259,7 @@ function animate(time) {
   if (startExplosion) {
     pSphere.visible = true;
     animateExplosion();
-    pSphere.position.z += 0.08;
+    pSphere.position.z += time * 0.0009;
 
     scene.remove(tunnelPoints);
   }
@@ -265,7 +267,7 @@ function animate(time) {
   // camera.position.z -= 0.01;
   // camera.rotation.x += 1;
   // tunnelPoints.position.x += 0.01;
-  tunnelPoints.position.z += 0.08;
+  tunnelPoints.position.z += time * 0.08;
   // tunnelPoints.rotation.z += 0.001;
   // pSphere.rotateX(1); клевая зернистость!
 }
