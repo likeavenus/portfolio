@@ -234,18 +234,57 @@ function animateExplosion() {
 }
 
 let startExplosion = false;
-setTimeout(() => {
-  startExplosion = true;
-}, 5500);
+// setTimeout(() => {
+//   startExplosion = true;
+// }, 5500);
 pSphere.visible = false;
 
 // console.log(tunnelPoints);
-let time = 0;
-const clock = new THREE.Clock();
+
+let clock = new THREE.Clock();
+let delta = 0;
+const speed = 2;
+const MAX_TUNNEL_Z = 108;
+
+function createMobiusStrip(width: number, height: number, segments: number): THREE.BufferGeometry {
+  const vertices = [];
+  const indices = [];
+
+  for (let i = 0; i <= segments; i++) {
+    const u = i / segments;
+    const v = 0;
+
+    const x = u * width - width / 2;
+    const y = (Math.sin(2 * Math.PI * u) * height) / 2;
+    const z = (Math.cos(2 * Math.PI * u) * height) / 2;
+
+    vertices.push(x, y, z);
+
+    if (i > 0) {
+      indices.push((i - 1) * 2, (i - 1) * 2 + 1, i * 2);
+      indices.push(i * 2, (i - 1) * 2 + 1, i * 2 + 1);
+    }
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(vertices), 3));
+  geometry.setIndex(indices);
+
+  return geometry;
+}
+
+const material = new THREE.MeshBasicMaterial({
+  color: 0x0000ff,
+  side: THREE.DoubleSide,
+});
+
+const geometry = createMobiusStrip(100, 100, 10000);
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+console.log("mesh: ", mesh);
 
 function animate() {
-  const delta = clock.getDelta();
-  time += delta;
+  delta = clock.getDelta();
   requestAnimationFrame(animate);
 
   if (resizeRendererToDisplaySize(renderer)) {
@@ -255,21 +294,18 @@ function animate() {
   }
   controls.update();
   render();
-
-  if (startExplosion) {
+  mesh.rotation.y += 0.01 * delta;
+  if (tunnelPoints.position.z > MAX_TUNNEL_Z) {
     pSphere.visible = true;
     animateExplosion();
-    pSphere.position.z += time * 0.0009;
+    pSphere.position.z += speed * delta;
 
     scene.remove(tunnelPoints);
   }
 
-  // camera.position.z -= 0.01;
-  // camera.rotation.x += 1;
-  // tunnelPoints.position.x += 0.01;
-  tunnelPoints.position.z += time * 0.08;
-  // tunnelPoints.rotation.z += 0.001;
-  // pSphere.rotateX(1); клевая зернистость!
+  if (tunnelPoints.position.z <= MAX_TUNNEL_Z) {
+    tunnelPoints.position.z += speed * 9 * delta;
+  }
 }
 
 function render() {
