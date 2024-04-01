@@ -41,15 +41,16 @@ export function Tunnel() {
     return [new Float32Array(positions), new Float32Array(colorsArr)];
   }, []);
 
-  const pointsRef = useRef(null);
+  const pointsRef = useRef<THREE.Points>(null);
 
-  useFrame(({ clock }) => {
-    const a = clock.getElapsedTime();
-    pointsRef!.current!.position!.z += 0.1 * a;
+  useFrame((state) => {
+    // const a = clock.getElapsedTime();
+    // pointsRef!.current!.position!.z += 0.1 * a;
+    pointsRef!.current!.position!.z += 0.1;
   });
 
   return (
-    <points ref={pointsRef} position={startPosition}>
+    <points ref={pointsRef} position={startPosition} name="tunnel">
       <bufferGeometry attach="geometry">
         <bufferAttribute attach="attributes-position" array={positions} count={positions.length / 3} itemSize={3} />
         <bufferAttribute attach="attributes-color" array={colors} itemSize={3} count={colors.length / 3} />
