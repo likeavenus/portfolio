@@ -8,6 +8,7 @@ import { Intro } from "../Intro";
 import "./styles.css";
 import { Explosion } from "../../canvas/objects/explosion";
 import { CameraShake } from "../Camera/Camera";
+import Model from "../Object/Object";
 
 export const Container: React.FC = () => {
   const [isStarted, setStart] = useState(true);
@@ -31,6 +32,7 @@ export const Container: React.FC = () => {
           <Explosion />
           <OrbitControls />
           <ambientLight castShadow position={new THREE.Vector3(0, 0, 0)} intensity={1} />
+          <Model />
           <CameraShake />
         </Canvas>
       </div>

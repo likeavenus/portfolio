@@ -7,7 +7,6 @@ export const CameraShake = () => {
 
   useFrame((state) => {
     const sphere = state?.scene?.getObjectByName("sphere");
-    console.log(state);
 
     if (sphere) {
       // Генерируем случайные значения для сдвига позиции камеры

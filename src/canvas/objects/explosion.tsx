@@ -96,8 +96,6 @@ export const Explosion = () => {
     depthWrite: false,
     blending: THREE.AdditiveBlending,
     vertexColors: true,
-    // transparent: true,
-    // opacity: 1.0,
   });
 
   // points = new THREE.Points(geometry, material);
