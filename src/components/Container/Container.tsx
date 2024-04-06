@@ -57,6 +57,19 @@ export const Container: React.FC = () => {
           <InteractiveCamera />
 
           <EffectComposer>
+            <Bloom
+              luminanceThreshold={0}
+              luminanceSmoothing={0.9}
+              height={300}
+            />
+            <Noise opacity={0.02} />
+            <Vignette eskil={false} offset={0.2} darkness={1} />
+            <DepthOfField
+              focusDistance={1}
+              focalLength={0.02}
+              bokehScale={2}
+              height={480}
+            />
             {/* <Glitch
               delay={[1.5, 3.5]} // min and max glitch delay
               duration={[0.6, 1.0]} // min and max glitch duration
@@ -65,19 +78,10 @@ export const Container: React.FC = () => {
               active // turn on/off the effect (switches between "mode" prop and GlitchMode.DISABLED)
               ratio={0.85} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
             /> */}
-            {/* <DepthOfField
-              focusDistance={0}
-              focalLength={0.02}
-              bokehScale={2}
-              height={480}
-            />
-            <Bloom
-              luminanceThreshold={0}
-              luminanceSmoothing={0.9}
-              height={300}
-            />
-            <Noise opacity={0.02} />
-            <Vignette eskil={false} offset={0.1} darkness={1} /> */}
+            {/* 
+            
+            
+             */}
             {/* <ChromaticAberration
               blendFunction={BlendFunction.NORMAL} // blend mode
               offset={[0.002, 0.002]} // color offset
