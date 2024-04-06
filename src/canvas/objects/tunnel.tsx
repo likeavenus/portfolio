@@ -1,10 +1,12 @@
 import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
+import { useSpring, animated } from "@react-spring/three";
 
 const tunnelParameters = {
   count: 90000,
-  size: 0.009,
+  // size: 0.01,
+  size: 0.02,
   radius: 1,
   branches: 3,
   spin: 1,
@@ -43,26 +45,43 @@ export function Tunnel() {
 
   const pointsRef = useRef<THREE.Points>(null);
 
-  useFrame((state) => {
-    // const a = clock.getElapsedTime();
+  useFrame(({ clock }) => {
+    const elapsedTime = clock.getElapsedTime();
+
     // pointsRef!.current!.position!.z += 0.1 * a;
-    pointsRef!.current!.position!.z += 0.1;
+    pointsRef!.current!.position!.z += elapsedTime * 0.02;
   });
 
   return (
-    <points ref={pointsRef} position={startPosition} name="tunnel">
-      <bufferGeometry attach="geometry">
-        <bufferAttribute attach="attributes-position" array={positions} count={positions.length / 3} itemSize={3} />
-        <bufferAttribute attach="attributes-color" array={colors} itemSize={3} count={colors.length / 3} />
-      </bufferGeometry>
-      <pointsMaterial
-        attach="material"
-        size={tunnelParameters.size}
-        sizeAttenuation
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-        vertexColors
-      />
-    </points>
+    <>
+      <directionalLight color={"#8454ff"} position={[0, 5, 0]} />
+      <pointLight color={"#c8bbea"} position={[-0.5, 0, 0]} />
+      <pointLight color={"#c8bbea"} position={[0.5, 0, 0]} />
+
+      <points ref={pointsRef} position={startPosition} name="tunnel">
+        <bufferGeometry attach="geometry">
+          <bufferAttribute
+            attach="attributes-position"
+            array={positions}
+            count={positions.length / 3}
+            itemSize={3}
+          />
+          <bufferAttribute
+            attach="attributes-color"
+            array={colors}
+            itemSize={3}
+            count={colors.length / 3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          attach="material"
+          size={tunnelParameters.size}
+          sizeAttenuation
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+          vertexColors
+        />
+      </points>
+    </>
   );
 }

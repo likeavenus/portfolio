@@ -21,6 +21,7 @@ export type TPSphereParams = {
 const parameters = {
   count: 190000,
   size: 0.085,
+  // size: 0.015,
   radius: 0.01,
   branches: 3,
   spin: 1,
@@ -104,12 +105,20 @@ export const Explosion = () => {
 
   useFrame((state) => {
     const tunnel = state?.scene?.getObjectByName("tunnel");
-    if (tunnel && tunnel.position.z > 0) {
+    const elapsedTime = state.clock.getElapsedTime();
+
+    // if (tunnel && tunnel.position.z > 0) {
+    if (tunnel && tunnel.position.z > 100) {
+      pointsRef.current.visible = true;
       const positions = pointsRef.current!.geometry.getAttribute("position");
       const colors = pointsRef.current!.geometry.getAttribute("color");
 
       for (let i = 0; i < positions.array.length; i += 3) {
-        const unitVector = new THREE.Vector3(positions.array[i], positions.array[i + 1], positions.array[i + 2]).normalize();
+        const unitVector = new THREE.Vector3(
+          positions.array[i],
+          positions.array[i + 1],
+          positions.array[i + 2]
+        ).normalize();
         positions.array[i] += unitVector.x * explosionSpeed;
         positions.array[i + 1] += unitVector.y * explosionSpeed;
         positions.array[i + 2] += unitVector.z * explosionSpeed;
@@ -120,16 +129,40 @@ export const Explosion = () => {
       // explosionSpeed -= 0.001;
     }
 
-    pointsRef.current.rotation.y += 0.00005;
+    pointsRef.current.rotation.y += elapsedTime * 0.00005;
   });
 
   return (
-    <points ref={pointsRef} position={startPosition} name="sphere" castShadow receiveShadow>
+    <points
+      ref={pointsRef}
+      position={startPosition}
+      name="sphere"
+      castShadow
+      receiveShadow
+      visible={false}
+    >
       <bufferGeometry attach="geometry">
-        <bufferAttribute attach="attributes-position" array={positions} count={positions.length / 3} itemSize={3} />
-        <bufferAttribute attach="attributes-color" array={colors} itemSize={3} count={colors.length / 3} />
+        <bufferAttribute
+          attach="attributes-position"
+          array={positions}
+          count={positions.length / 3}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          array={colors}
+          itemSize={3}
+          count={colors.length / 3}
+        />
       </bufferGeometry>
-      <pointsMaterial attach="material" size={parameters.size} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} vertexColors />
+      <pointsMaterial
+        attach="material"
+        size={parameters.size}
+        sizeAttenuation
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        vertexColors
+      />
     </points>
   );
 };
