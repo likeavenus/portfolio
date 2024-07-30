@@ -1,7 +1,13 @@
 import React, { useState, Suspense } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
-import { useProgress, Html } from "@react-three/drei";
+import {
+  useProgress,
+  Html,
+  Environment,
+  Float,
+  ScrollControls,
+} from "@react-three/drei";
 import { Tunnel } from "../../canvas/objects/tunnel";
 import { Intro } from "../Intro";
 import { BlendFunction, GlitchMode } from "postprocessing";
@@ -20,6 +26,8 @@ import {
   ChromaticAberration,
   Glitch,
 } from "@react-three/postprocessing";
+import { Heart } from "../Heart/Heart";
+import { Dude } from "../Dude";
 
 export const Container: React.FC = () => {
   const [isStarted, setStart] = useState(false);
@@ -30,31 +38,34 @@ export const Container: React.FC = () => {
   };
 
   const { progress } = useProgress();
-  const isProgressEnded = progress === 100;
+  // const isProgressEnded = progress === 100;
+  const isProgressEnded = true;
 
   return (
     <main className="main">
       {isProgressEnded && (
         <div className={`main-container ${isStarted ? "inactive" : ""}`}>
-          <Intro isStarted={isStarted} setStart={start} />{" "}
+          <Intro isStarted={isStarted} setStart={start} />
         </div>
       )}
 
       <div className="canvas-container">
         <Canvas shadows className="canvas" style={{ background: "#000000" }}>
           {isStarted && <Tunnel />}
-          {/* <fog attach="fog" args={["#202020", 10, 0]} /> */}
-          {/* <Tunnel /> */}
-          {/* <Box position={[0, 0, 0]} /> */}
           {/* <Plane /> */}
 
           <Explosion />
-          {/* <OrbitControls /> */}
-          <Suspense fallback={<Html center>Loading</Html>}>
+          {/* <Suspense fallback={<Html center>Loading</Html>}>
             <Model />
-          </Suspense>
-          {/* <Camera /> */}
+          </Suspense> */}
           <InteractiveCamera />
+          <ScrollControls pages={4}>
+            <Float floatIntensity={2} speed={3}>
+              <Heart scale={2} position={[0, 0, -5]} />
+              {/* <Dude scale={2} position={[0, 0, -51]} /> */}
+            </Float>
+          </ScrollControls>
+          {/* <Environment preset="sunset" /> */}
 
           <EffectComposer>
             <Bloom
@@ -78,10 +89,7 @@ export const Container: React.FC = () => {
               active // turn on/off the effect (switches between "mode" prop and GlitchMode.DISABLED)
               ratio={0.85} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
             /> */}
-            {/* 
-            
-            
-             */}
+
             {/* <ChromaticAberration
               blendFunction={BlendFunction.NORMAL} // blend mode
               offset={[0.002, 0.002]} // color offset
