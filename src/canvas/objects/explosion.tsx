@@ -53,7 +53,7 @@ const parameters = {
 //     }
 //   }
 
-let explosionSpeed = 0.5;
+const explosionSpeed = 55;
 
 export const Explosion = () => {
   // Geometry
@@ -103,12 +103,12 @@ export const Explosion = () => {
 
   const pointsRef = useRef<THREE.Points>(null);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const tunnel = state?.scene?.getObjectByName("tunnel");
-    const elapsedTime = state.clock.getElapsedTime();
+    // const elapsedTime = state.clock.getElapsedTime();
 
     // if (tunnel && tunnel.position.z > 0) {
-    if (tunnel && tunnel.position.z > 100) {
+    if (tunnel && tunnel.position.z > 40) {
       pointsRef.current.visible = true;
       const positions = pointsRef.current!.geometry.getAttribute("position");
       const colors = pointsRef.current!.geometry.getAttribute("color");
@@ -119,9 +119,16 @@ export const Explosion = () => {
           positions.array[i + 1],
           positions.array[i + 2]
         ).normalize();
-        positions.array[i] += unitVector.x * explosionSpeed;
-        positions.array[i + 1] += unitVector.y * explosionSpeed;
-        positions.array[i + 2] += unitVector.z * explosionSpeed;
+        // positions.array[i] +=
+        //   unitVector.x * (explosionSpeed * Math.random() * 2) * delta;
+        // positions.array[i + 1] +=
+        //   unitVector.y * (explosionSpeed * Math.random() * 2) * delta;
+        // positions.array[i + 2] += unitVector.z * explosionSpeed * delta;
+        positions.array[i] += unitVector.x * explosionSpeed * Math.sin(delta);
+        positions.array[i + 1] +=
+          unitVector.y * explosionSpeed * Math.sin(delta);
+        positions.array[i + 2] +=
+          unitVector.z * explosionSpeed * Math.sin(delta);
       }
       positions.needsUpdate = true;
       colors.needsUpdate = true;
@@ -129,7 +136,8 @@ export const Explosion = () => {
       // explosionSpeed -= 0.001;
     }
 
-    pointsRef.current.rotation.y += elapsedTime * 0.00005;
+    pointsRef.current.rotation.y += 0.0005 * delta;
+    pointsRef.current.rotation.x += 0.0005 * delta;
   });
 
   return (

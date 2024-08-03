@@ -16,10 +16,13 @@ const tunnelParameters = {
   outsideColor: "#1854e1",
 };
 
+let tunnelSpeed = 5;
+let tunnelSpeedIncrement = 0.01;
+
 const colorInside = new THREE.Color(tunnelParameters.insideColor);
 const colorOutside = new THREE.Color(tunnelParameters.outsideColor);
 
-const startPosition = new THREE.Vector3(0, 0, -110);
+const startPosition = new THREE.Vector3(0, 0, -125);
 
 export function Tunnel() {
   const [positions, colors] = useMemo(() => {
@@ -45,11 +48,25 @@ export function Tunnel() {
 
   const pointsRef = useRef<THREE.Points>(null);
 
-  useFrame(({ clock }) => {
-    const elapsedTime = clock.getElapsedTime();
+  // useFrame((_, delta) => {
+  //   if (tunnelSpeed <= 30) {
+  //     tunnelSpeed += 0.02;
+  //   }
+  //   // pointsRef!.current!.position!.z += 0.1 * a;
+  //   // pointsRef!.current!.position!.z += elapsedTime * 0.02;
+  //   pointsRef!.current!.position!.z += tunnelSpeed * delta;
+  // });
 
-    // pointsRef!.current!.position!.z += 0.1 * a;
-    pointsRef!.current!.position!.z += elapsedTime * 0.02;
+  useFrame((_, delta) => {
+    if (tunnelSpeedIncrement <= 5) {
+      tunnelSpeedIncrement += 0.0002;
+    }
+
+    if (tunnelSpeed < 30) {
+      tunnelSpeed += tunnelSpeedIncrement;
+    }
+
+    pointsRef!.current!.position!.z += tunnelSpeed * delta;
   });
 
   return (

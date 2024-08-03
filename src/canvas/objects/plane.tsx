@@ -14,15 +14,25 @@ export function Plane() {
     []
   );
 
-  useFrame((state) => {
-    const { clock } = state;
-    mesh.current.material.uniforms.u_time.value = clock.getElapsedTime() / 2;
-  });
+  // useFrame((state) => {
+  //   const { clock } = state;
+  //   mesh.current.material.uniforms.u_time.value = clock.getElapsedTime() / 2;
+  // });
 
   return (
-    <mesh ref={mesh} rotation={[-Math.PI / 2, 0, 0]} scale={1.5}>
-      <planeGeometry args={[1, 1, 32, 32]} />
-      <shaderMaterial fragmentShader={fragmentShader} vertexShader={vertexShader} uniforms={uniforms} wireframe={false} />
+    // <mesh ref={mesh} rotation={[-Math.PI / 2, 0, 0]} scale={1.5}>
+    //   <planeGeometry args={[1, 1, 32, 32]} />
+
+    //   {/* <shaderMaterial
+    //     fragmentShader={fragmentShader}
+    //     // vertexShader={vertexShader}
+    //     uniforms={uniforms}
+    //     wireframe={false}
+    //   /> */}
+    // </mesh>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
+      <planeGeometry args={[10, 10]} />
+      <meshStandardMaterial color="#333" />
     </mesh>
   );
 }

@@ -7,6 +7,8 @@ import {
   Environment,
   Float,
   ScrollControls,
+  Stats,
+  OrbitControls,
 } from "@react-three/drei";
 import { Tunnel } from "../../canvas/objects/tunnel";
 import { Intro } from "../Intro";
@@ -14,7 +16,7 @@ import { BlendFunction, GlitchMode } from "postprocessing";
 
 import "./styles.css";
 import { Explosion } from "../../canvas/objects/explosion";
-import { InteractiveCamera } from "../Camera/Camera";
+import { Camera, InteractiveCamera } from "../Camera/Camera";
 import Model from "../Model/Model";
 import { Plane } from "../../canvas/objects/plane";
 import {
@@ -28,9 +30,10 @@ import {
 } from "@react-three/postprocessing";
 import { Heart } from "../Heart/Heart";
 import { Dude } from "../Dude";
+import { NeonLetter } from "../../canvas/objects/NeonLetter";
 
 export const Container: React.FC = () => {
-  const [isStarted, setStart] = useState(false);
+  const [isStarted, setStart] = useState(true);
 
   //   const { points: pSphere, positions: spherePositions, colors: sphereColors } = generatePSphere(pSphereParameters, scene);
   const start = () => {
@@ -38,16 +41,16 @@ export const Container: React.FC = () => {
   };
 
   const { progress } = useProgress();
-  // const isProgressEnded = progress === 100;
-  const isProgressEnded = true;
+  const isProgressEnded = progress === 100;
+  // const isProgressEnded = true;
 
   return (
     <main className="main">
-      {isProgressEnded && (
+      {/* {isProgressEnded && (
         <div className={`main-container ${isStarted ? "inactive" : ""}`}>
           <Intro isStarted={isStarted} setStart={start} />
         </div>
-      )}
+      )} */}
 
       <div className="canvas-container">
         <Canvas shadows className="canvas" style={{ background: "#000000" }}>
@@ -58,29 +61,29 @@ export const Container: React.FC = () => {
           {/* <Suspense fallback={<Html center>Loading</Html>}>
             <Model />
           </Suspense> */}
-          <InteractiveCamera />
-          <ScrollControls pages={4}>
-            <Float floatIntensity={2} speed={3}>
-              <Heart scale={2} position={[0, 0, -5]} />
-              {/* <Dude scale={2} position={[0, 0, -51]} /> */}
-            </Float>
-          </ScrollControls>
+          {/* <InteractiveCamera /> */}
+          <Camera />
+          {/* <ScrollControls pages={4}> */}
+          {/* <Float floatIntensity={2} speed={3}> */}
+          {/* <Heart scale={2} position={[0, 0, -5]} /> */}
+          {/* <Dude scale={2} position={[0, 0, -51]} /> */}
+          {/* </Float> */}
+          {/* </ScrollControls> */}
+
+          <NeonLetter text="START" />
+
           {/* <Environment preset="sunset" /> */}
 
           <EffectComposer>
-            <Bloom
-              luminanceThreshold={0}
-              luminanceSmoothing={0.9}
-              height={300}
-            />
-            <Noise opacity={0.02} />
-            <Vignette eskil={false} offset={0.2} darkness={1} />
-            <DepthOfField
+            <Bloom luminanceThreshold={1} luminanceSmoothing={2} height={300} />
+            {/* <Noise opacity={0.02} /> */}
+            {/* <Vignette eskil={false} offset={0.2} darkness={1} /> */}
+            {/* <DepthOfField
               focusDistance={1}
               focalLength={0.02}
               bokehScale={2}
               height={480}
-            />
+            /> */}
             {/* <Glitch
               delay={[1.5, 3.5]} // min and max glitch delay
               duration={[0.6, 1.0]} // min and max glitch duration
@@ -95,6 +98,10 @@ export const Container: React.FC = () => {
               offset={[0.002, 0.002]} // color offset
             /> */}
           </EffectComposer>
+          <OrbitControls />
+          <Stats />
+          <axesHelper args={[5]} />
+          <gridHelper />
         </Canvas>
       </div>
     </main>
