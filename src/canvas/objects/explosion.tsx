@@ -64,6 +64,7 @@ export const Explosion = () => {
   const colorInside = new THREE.Color(parameters.insideColor);
   const colorOutside = new THREE.Color(parameters.outsideColor);
   const startPosition = new THREE.Vector3(0, 0, -110);
+  // const startPosition = new THREE.Vector3(0, 0, -40);
 
   const [positions, colors] = useMemo(() => {
     const positions = [];
@@ -97,6 +98,7 @@ export const Explosion = () => {
     depthWrite: false,
     blending: THREE.AdditiveBlending,
     vertexColors: true,
+    side: 2,
   });
 
   // points = new THREE.Points(geometry, material);
@@ -108,60 +110,68 @@ export const Explosion = () => {
     // const elapsedTime = state.clock.getElapsedTime();
 
     // if (tunnel && tunnel.position.z > 0) {
-    if (tunnel && tunnel.position.z > 40) {
+    if (tunnel && tunnel.position.z > 40 && tunnel.position.z < 250) {
       pointsRef.current.visible = true;
       const positions = pointsRef.current!.geometry.getAttribute("position");
       const colors = pointsRef.current!.geometry.getAttribute("color");
 
       for (let i = 0; i < positions.array.length; i += 3) {
-        const unitVector = new THREE.Vector3(
-          positions.array[i],
-          positions.array[i + 1],
-          positions.array[i + 2]
-        ).normalize();
+        const unitVector = new THREE.Vector3(positions.array[i], positions.array[i + 1], positions.array[i + 2]).normalize();
         // positions.array[i] +=
         //   unitVector.x * (explosionSpeed * Math.random() * 2) * delta;
         // positions.array[i + 1] +=
         //   unitVector.y * (explosionSpeed * Math.random() * 2) * delta;
         // positions.array[i + 2] += unitVector.z * explosionSpeed * delta;
         positions.array[i] += unitVector.x * explosionSpeed * Math.sin(delta);
-        positions.array[i + 1] +=
-          unitVector.y * explosionSpeed * Math.sin(delta);
-        positions.array[i + 2] +=
-          unitVector.z * explosionSpeed * Math.sin(delta);
+        positions.array[i + 1] += unitVector.y * explosionSpeed * Math.sin(delta);
+        // positions.array[i + 2] += unitVector.z * explosionSpeed * Math.sin(delta);
+        positions.array[i + 2] += unitVector.z * explosionSpeed * Math.sin(delta) * Math.random() * 3;
+
+        // if (Math.random() > 0.999999) {
+        // }
       }
+
       positions.needsUpdate = true;
       colors.needsUpdate = true;
 
       // explosionSpeed -= 0.001;
-    }
+    } else if (tunnel && tunnel.position.z > 200 && tunnel.position.z < 500) {
+      const positions = pointsRef.current!.geometry.getAttribute("position");
+      const colors = pointsRef.current!.geometry.getAttribute("color");
 
-    pointsRef.current.rotation.y += 0.0005 * delta;
-    pointsRef.current.rotation.x += 0.0005 * delta;
+      // pointsRef.current.rotation.y += 0.05 * delta;
+      // pointsRef.current.rotation.x += 0.05 * delta;
+
+      for (let i = 0; i < positions.array.length; i += 3) {
+        const unitVector = new THREE.Vector3(positions.array[i], positions.array[i + 1], positions.array[i + 2]).normalize();
+        // positions.array[i] +=
+        //   unitVector.x * (explosionSpeed * Math.random() * 2) * delta;
+        // positions.array[i + 1] +=
+        //   unitVector.y * (explosionSpeed * Math.random() * 2) * delta;
+        // positions.array[i + 2] += unitVector.z * explosionSpeed * delta;
+        positions.array[i] -= unitVector.x * explosionSpeed * Math.sin(delta);
+        positions.array[i + 1] -= unitVector.y * explosionSpeed * Math.sin(delta);
+        // positions.array[i + 2] += unitVector.z * explosionSpeed * Math.sin(delta);
+        positions.array[i + 2] -= unitVector.z * explosionSpeed * Math.sin(delta) * Math.random() * 3;
+
+        // if (Math.random() > 0.999999) {
+        // }
+      }
+
+      positions.needsUpdate = true;
+      colors.needsUpdate = true;
+    } else {
+      if (pointsRef && pointsRef.current) {
+        pointsRef.current.visible = false;
+      }
+    }
   });
 
   return (
-    <points
-      ref={pointsRef}
-      position={startPosition}
-      name="sphere"
-      castShadow
-      receiveShadow
-      visible={false}
-    >
+    <points ref={pointsRef} position={startPosition} name="sphere" visible={false}>
       <bufferGeometry attach="geometry">
-        <bufferAttribute
-          attach="attributes-position"
-          array={positions}
-          count={positions.length / 3}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attach="attributes-color"
-          array={colors}
-          itemSize={3}
-          count={colors.length / 3}
-        />
+        <bufferAttribute attach="attributes-position" array={positions} count={positions.length / 3} itemSize={3} />
+        <bufferAttribute attach="attributes-color" array={colors} itemSize={3} count={colors.length / 3} />
       </bufferGeometry>
       <pointsMaterial
         attach="material"
@@ -170,6 +180,8 @@ export const Explosion = () => {
         depthWrite={false}
         blending={THREE.AdditiveBlending}
         vertexColors
+        // depthTest={false}
+        // side={THREE.DoubleSide}
       />
     </points>
   );

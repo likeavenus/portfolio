@@ -22,7 +22,7 @@ let tunnelSpeedIncrement = 0.01;
 const colorInside = new THREE.Color(tunnelParameters.insideColor);
 const colorOutside = new THREE.Color(tunnelParameters.outsideColor);
 
-const startPosition = new THREE.Vector3(0, 0, -125);
+const startPosition = new THREE.Vector3(0, 0, -200);
 
 export function Tunnel() {
   const [positions, colors] = useMemo(() => {
@@ -59,7 +59,7 @@ export function Tunnel() {
 
   useFrame((_, delta) => {
     if (tunnelSpeedIncrement <= 5) {
-      tunnelSpeedIncrement += 0.0002;
+      tunnelSpeedIncrement += 0.0004;
     }
 
     if (tunnelSpeed < 30) {
@@ -67,6 +67,13 @@ export function Tunnel() {
     }
 
     pointsRef!.current!.position!.z += tunnelSpeed * delta;
+
+    // if (pointsRef!.current!.position!.z > 300) {
+    //   // pointsRef.current.destr
+    //   _.scene.remove(pointsRef!.current!);
+
+    //   console.log(pointsRef!.current!.position!.z);
+    // }
   });
 
   return (
@@ -77,18 +84,8 @@ export function Tunnel() {
 
       <points ref={pointsRef} position={startPosition} name="tunnel">
         <bufferGeometry attach="geometry">
-          <bufferAttribute
-            attach="attributes-position"
-            array={positions}
-            count={positions.length / 3}
-            itemSize={3}
-          />
-          <bufferAttribute
-            attach="attributes-color"
-            array={colors}
-            itemSize={3}
-            count={colors.length / 3}
-          />
+          <bufferAttribute attach="attributes-position" array={positions} count={positions.length / 3} itemSize={3} />
+          <bufferAttribute attach="attributes-color" array={colors} itemSize={3} count={colors.length / 3} />
         </bufferGeometry>
         <pointsMaterial
           attach="material"

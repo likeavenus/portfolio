@@ -1,33 +1,17 @@
 import React, { useState, Suspense } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
-import {
-  useProgress,
-  Html,
-  Environment,
-  Float,
-  ScrollControls,
-  Stats,
-  OrbitControls,
-} from "@react-three/drei";
-import { Tunnel } from "../../canvas/objects/tunnel";
+import { useProgress, Html, Environment, Float, ScrollControls, Stats, OrbitControls } from "@react-three/drei";
+import { Tunnel } from "../../canvas/objects/Tunnel";
 import { Intro } from "../Intro";
 import { BlendFunction, GlitchMode } from "postprocessing";
 
 import "./styles.css";
-import { Explosion } from "../../canvas/objects/explosion";
+import { Explosion } from "../../canvas/objects/Explosion";
 import { Camera, InteractiveCamera } from "../Camera/Camera";
 import Model from "../Model/Model";
-import { Plane } from "../../canvas/objects/plane";
-import {
-  Bloom,
-  DepthOfField,
-  EffectComposer,
-  Noise,
-  Vignette,
-  ChromaticAberration,
-  Glitch,
-} from "@react-three/postprocessing";
+import { Plane } from "../../canvas/objects/Plane";
+import { Bloom, DepthOfField, EffectComposer, Noise, Vignette, ChromaticAberration, Glitch } from "@react-three/postprocessing";
 import { Heart } from "../Heart/Heart";
 import { Dude } from "../Dude";
 import { NeonLetter } from "../../canvas/objects/NeonLetter";
@@ -70,20 +54,15 @@ export const Container: React.FC = () => {
           {/* </Float> */}
           {/* </ScrollControls> */}
 
-          <NeonLetter text="START" />
+          {!isStarted && <NeonLetter onClick={start} text="START" />}
 
           {/* <Environment preset="sunset" /> */}
 
           <EffectComposer>
             <Bloom luminanceThreshold={1} luminanceSmoothing={2} height={300} />
-            {/* <Noise opacity={0.02} /> */}
-            {/* <Vignette eskil={false} offset={0.2} darkness={1} /> */}
-            {/* <DepthOfField
-              focusDistance={1}
-              focalLength={0.02}
-              bokehScale={2}
-              height={480}
-            /> */}
+            <Noise opacity={0.02} />
+            <Vignette eskil={false} offset={0.2} darkness={1} />
+            <DepthOfField focusDistance={1} focalLength={0.02} bokehScale={2} height={480} />
             {/* <Glitch
               delay={[1.5, 3.5]} // min and max glitch delay
               duration={[0.6, 1.0]} // min and max glitch duration
@@ -93,15 +72,15 @@ export const Container: React.FC = () => {
               ratio={0.85} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
             /> */}
 
-            {/* <ChromaticAberration
+            <ChromaticAberration
               blendFunction={BlendFunction.NORMAL} // blend mode
-              offset={[0.002, 0.002]} // color offset
-            /> */}
+              offset={[0.0002, 0.0002]} // color offset
+            />
           </EffectComposer>
           <OrbitControls />
           <Stats />
-          <axesHelper args={[5]} />
-          <gridHelper />
+          {/* <axesHelper args={[5]} /> */}
+          {/* <gridHelper position={[0, -1, 0]} /> */}
         </Canvas>
       </div>
     </main>

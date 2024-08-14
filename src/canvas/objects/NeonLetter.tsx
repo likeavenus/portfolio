@@ -3,30 +3,20 @@ import { TextGeometry } from "three/examples/jsm/Addons.js";
 import { extend, useThree } from "@react-three/fiber";
 import font from "/gt.json?url";
 
-import {
-  Text3D,
-  OrbitControls,
-  Center,
-  Stars,
-  Float,
-  Sparkles,
-  useMatcapTexture,
-} from "@react-three/drei";
+import { Text3D, OrbitControls, Center, Stars, Float, Sparkles, useMatcapTexture } from "@react-three/drei";
 import * as THREE from "three";
 
 extend({ TextGeometry });
 
 interface NeonLetterProps {
   text: string;
+  onClick(): void;
   fontSize?: number;
   font?: string;
   color?: string;
 }
 
-export const NeonLetter: React.FC<NeonLetterProps> = ({
-  text,
-  color = "#ff00ff",
-}) => {
+export const NeonLetter: React.FC<NeonLetterProps> = ({ onClick, text, color = "#ff00ff" }) => {
   const meshRef = useRef(null);
 
   const glowMaterial = new THREE.MeshStandardMaterial({
@@ -73,11 +63,9 @@ export const NeonLetter: React.FC<NeonLetterProps> = ({
         );
       })} */}
       <Text3D
-        onClick={() => {
-          console.log("onClick");
-        }}
+        onClick={onClick}
         castShadow
-        position={[-3, 0, -5]}
+        position={[-1.8, -0.3, -5]}
         // scale={[-1, 1, 1]}
         // rotation={[0, 0, 0]}
         ref={ref}
