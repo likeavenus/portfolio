@@ -118,7 +118,7 @@ export const Container: React.FC = () => {
             />
           </mesh>
           {/* <ambientLight color="#ffffff" intensity={10} /> */}
-          <pointLight position={[0, 0, -100]} intensity={1} color="#fff" />
+          <pointLight position={[0, 10, -5]} intensity={1} color="#fff" />
           <Suspense fallback={<Html center>Loading</Html>}>{/* <Model /> */}</Suspense>
           {/* <InteractiveCamera /> */}
           <Camera />
