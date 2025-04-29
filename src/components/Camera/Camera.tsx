@@ -30,18 +30,7 @@ export const Camera = () => {
 export const InteractiveCamera = () => {
   const [vec] = useState(() => new THREE.Vector3());
   const { camera, mouse } = useThree();
-  useFrame(() =>
-    camera.position.lerp(vec.set(mouse.x * 0.5, mouse.y * 0.5, 3), 0.02)
-  );
+  useFrame(() => camera.position.lerp(vec.set(mouse.x * 0.5, mouse.y * 0.5, 3), 0.02));
 
-  return (
-    <CameraShake
-      maxYaw={0.01}
-      maxPitch={0.01}
-      maxRoll={0.01}
-      yawFrequency={0.5}
-      pitchFrequency={0.5}
-      rollFrequency={0.4}
-    />
-  );
+  return <CameraShake maxYaw={0.01} maxPitch={0.01} maxRoll={0.01} yawFrequency={0.5} pitchFrequency={0.5} rollFrequency={0.4} />;
 };

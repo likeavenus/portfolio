@@ -135,32 +135,34 @@ export const Explosion = () => {
       colors.needsUpdate = true;
 
       // explosionSpeed -= 0.001;
-    } else if (tunnel && tunnel.position.z > 200 && tunnel.position.z < 500) {
-      const positions = pointsRef.current!.geometry.getAttribute("position");
-      const colors = pointsRef.current!.geometry.getAttribute("color");
+    }
+    //  else if (tunnel && tunnel.position.z > 200 && tunnel.position.z < 500) {
+    //   const positions = pointsRef.current!.geometry.getAttribute("position");
+    //   const colors = pointsRef.current!.geometry.getAttribute("color");
 
-      // pointsRef.current.rotation.y += 0.05 * delta;
-      // pointsRef.current.rotation.x += 0.05 * delta;
+    //   // pointsRef.current.rotation.y += 0.05 * delta;
+    //   // pointsRef.current.rotation.x += 0.05 * delta;
 
-      for (let i = 0; i < positions.array.length; i += 3) {
-        const unitVector = new THREE.Vector3(positions.array[i], positions.array[i + 1], positions.array[i + 2]).normalize();
-        // positions.array[i] +=
-        //   unitVector.x * (explosionSpeed * Math.random() * 2) * delta;
-        // positions.array[i + 1] +=
-        //   unitVector.y * (explosionSpeed * Math.random() * 2) * delta;
-        // positions.array[i + 2] += unitVector.z * explosionSpeed * delta;
-        positions.array[i] -= unitVector.x * explosionSpeed * Math.sin(delta);
-        positions.array[i + 1] -= unitVector.y * explosionSpeed * Math.sin(delta);
-        // positions.array[i + 2] += unitVector.z * explosionSpeed * Math.sin(delta);
-        positions.array[i + 2] -= unitVector.z * explosionSpeed * Math.sin(delta) * Math.random() * 3;
+    //   for (let i = 0; i < positions.array.length; i += 3) {
+    //     const unitVector = new THREE.Vector3(positions.array[i], positions.array[i + 1], positions.array[i + 2]).normalize();
+    //     // positions.array[i] +=
+    //     //   unitVector.x * (explosionSpeed * Math.random() * 2) * delta;
+    //     // positions.array[i + 1] +=
+    //     //   unitVector.y * (explosionSpeed * Math.random() * 2) * delta;
+    //     // positions.array[i + 2] += unitVector.z * explosionSpeed * delta;
+    //     positions.array[i] -= unitVector.x * explosionSpeed * Math.sin(delta);
+    //     positions.array[i + 1] -= unitVector.y * explosionSpeed * Math.sin(delta);
+    //     // positions.array[i + 2] += unitVector.z * explosionSpeed * Math.sin(delta);
+    //     positions.array[i + 2] -= unitVector.z * explosionSpeed * Math.sin(delta) * Math.random() * 3;
 
-        // if (Math.random() > 0.999999) {
-        // }
-      }
+    //     // if (Math.random() > 0.999999) {
+    //     // }
+    //   }
 
-      positions.needsUpdate = true;
-      colors.needsUpdate = true;
-    } else {
+    //   positions.needsUpdate = true;
+    //   colors.needsUpdate = true;
+    // }
+    else {
       if (pointsRef && pointsRef.current) {
         pointsRef.current.visible = false;
       }

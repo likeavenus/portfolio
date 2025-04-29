@@ -111,10 +111,7 @@ type GLTFResult = GLTF & {
   animations: GLTFAction[];
 };
 
-type ContextType = Record<
-  string,
-  React.ForwardRefExoticComponent<JSX.IntrinsicElements["mesh"]>
->;
+type ContextType = Record<string, React.ForwardRefExoticComponent<JSX.IntrinsicElements["mesh"]>>;
 
 export function Dude(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(NodelURL) as GLTFResult;
@@ -132,69 +129,59 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         const meshWorldPosition = new THREE.Vector3();
         mesh.getWorldPosition(meshWorldPosition);
 
-        mesh.directionVector = meshWorldPosition
-          .clone()
-          .sub(groupWorldPosition)
-          .normalize();
+        mesh.directionVector = meshWorldPosition.clone().sub(groupWorldPosition).normalize();
 
-        mesh.targetPosition = mesh.originalPosition
-          .clone()
-          .add(mesh.directionVector.clone().multiplyScalar(0.5));
+        mesh.targetPosition = mesh.originalPosition.clone().add(mesh.directionVector.clone().multiplyScalar(0.5));
       });
     }
   }, []);
 
   const scrollData = useScroll();
 
-  useFrame(() => {
-    if (group && group?.current) {
-      group.current.children.forEach((mesh) => {
-        if (scrollData.offset < 0.0001) {
-          if (mesh.name === "origin") {
-            mesh.visible = true;
-          } else {
-            // mesh.visible = false;
-          }
-        } else {
-          if (mesh.name === "origin") {
-            // mesh.visible = false;
-          } else {
-            mesh.visible = true;
-          }
-        }
+  // useFrame(() => {
+  //   if (group && group?.current) {
+  //     group.current.children.forEach((mesh) => {
+  //       if (scrollData.offset < 0.0001) {
+  //         if (mesh.name === "origin") {
+  //           mesh.visible = true;
+  //         } else {
+  //           // mesh.visible = false;
+  //         }
+  //       } else {
+  //         if (mesh.name === "origin") {
+  //           // mesh.visible = false;
+  //         } else {
+  //           mesh.visible = true;
+  //         }
+  //       }
 
-        if (mesh.targetPosition) {
-          mesh.position.x = THREE.MathUtils.lerp(
-            mesh.originalPosition.x,
-            mesh.targetPosition.x,
-            scrollData.offset * 2
-          );
+  //       if (mesh.targetPosition) {
+  //         mesh.position.x = THREE.MathUtils.lerp(
+  //           mesh.originalPosition.x,
+  //           mesh.targetPosition.x,
+  //           scrollData.offset * 2
+  //         );
 
-          mesh.position.y = THREE.MathUtils.lerp(
-            mesh.originalPosition.y,
-            mesh.targetPosition.y,
-            scrollData.offset * 2
-          );
+  //         mesh.position.y = THREE.MathUtils.lerp(
+  //           mesh.originalPosition.y,
+  //           mesh.targetPosition.y,
+  //           scrollData.offset * 2
+  //         );
 
-          mesh.position.z = THREE.MathUtils.lerp(
-            mesh.originalPosition.z,
-            mesh.targetPosition.z,
-            scrollData.offset
-          );
-        }
-      });
-    }
-  });
+  //         mesh.position.z = THREE.MathUtils.lerp(
+  //           mesh.originalPosition.z,
+  //           mesh.targetPosition.z,
+  //           scrollData.offset
+  //         );
+  //       }
+  //     });
+  //   }
+  // });
 
   return (
     <group {...props} dispose={null} position={[0, -2, 0]} ref={group}>
-      <Html style={{ position: "fixed" }}>FIXED HTML</Html>
-      <mesh
-        name="Plane007_cell"
-        geometry={nodes.Plane007_cell.geometry}
-        material={materials.DefaultMaterial}
-        position={[-0.087, 0.711, 0.015]}
-      />
+      {/* <Html style={{ position: "fixed" }}>FIXED HTML</Html> */}
+      <mesh name="Plane007_cell" geometry={nodes.Plane007_cell.geometry} material={materials.DefaultMaterial} position={[-0.087, 0.711, 0.015]} />
       <mesh
         name="Plane007_cell001"
         geometry={nodes.Plane007_cell001.geometry}
@@ -225,12 +212,7 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[-0.119, 0.467, -0.017]}
       />
-      <mesh
-        name="Plane007_cell007"
-        geometry={nodes.Plane007_cell007.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.057, 1.88, 0.098]}
-      />
+      <mesh name="Plane007_cell007" geometry={nodes.Plane007_cell007.geometry} material={materials.DefaultMaterial} position={[0.057, 1.88, 0.098]} />
       <mesh
         name="Plane007_cell008"
         geometry={nodes.Plane007_cell008.geometry}
@@ -267,12 +249,7 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[0.169, 0.026, 0.133]}
       />
-      <mesh
-        name="Plane007_cell014"
-        geometry={nodes.Plane007_cell014.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.167, 0.032, 0.09]}
-      />
+      <mesh name="Plane007_cell014" geometry={nodes.Plane007_cell014.geometry} material={materials.DefaultMaterial} position={[0.167, 0.032, 0.09]} />
       <mesh
         name="Plane007_cell015"
         geometry={nodes.Plane007_cell015.geometry}
@@ -315,12 +292,7 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[-0.199, 1.512, 0.059]}
       />
-      <mesh
-        name="Plane007_cell022"
-        geometry={nodes.Plane007_cell022.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.16, 0.5, 0.012]}
-      />
+      <mesh name="Plane007_cell022" geometry={nodes.Plane007_cell022.geometry} material={materials.DefaultMaterial} position={[0.16, 0.5, 0.012]} />
       <mesh
         name="Plane007_cell023"
         geometry={nodes.Plane007_cell023.geometry}
@@ -339,12 +311,7 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[-0.004, 1.794, 0.011]}
       />
-      <mesh
-        name="Plane007_cell026"
-        geometry={nodes.Plane007_cell026.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.243, 1.34, 0.058]}
-      />
+      <mesh name="Plane007_cell026" geometry={nodes.Plane007_cell026.geometry} material={materials.DefaultMaterial} position={[0.243, 1.34, 0.058]} />
       <mesh
         name="Plane007_cell027"
         geometry={nodes.Plane007_cell027.geometry}
@@ -405,12 +372,7 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[-0.103, 0.892, 0.058]}
       />
-      <mesh
-        name="Plane007_cell039"
-        geometry={nodes.Plane007_cell039.geometry}
-        material={materials.DefaultMaterial}
-        position={[-0.46, 1.051, 0.21]}
-      />
+      <mesh name="Plane007_cell039" geometry={nodes.Plane007_cell039.geometry} material={materials.DefaultMaterial} position={[-0.46, 1.051, 0.21]} />
       <mesh
         name="Plane007_cell040"
         geometry={nodes.Plane007_cell040.geometry}
@@ -423,12 +385,7 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[-0.484, 1.026, 0.187]}
       />
-      <mesh
-        name="Plane007_cell042"
-        geometry={nodes.Plane007_cell042.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.1, 1.177, 0.117]}
-      />
+      <mesh name="Plane007_cell042" geometry={nodes.Plane007_cell042.geometry} material={materials.DefaultMaterial} position={[0.1, 1.177, 0.117]} />
       <mesh
         name="Plane007_cell043"
         geometry={nodes.Plane007_cell043.geometry}
@@ -483,24 +440,14 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[0.059, 1.815, 0.038]}
       />
-      <mesh
-        name="Plane007_cell052"
-        geometry={nodes.Plane007_cell052.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.501, 1.008, 0.16]}
-      />
+      <mesh name="Plane007_cell052" geometry={nodes.Plane007_cell052.geometry} material={materials.DefaultMaterial} position={[0.501, 1.008, 0.16]} />
       <mesh
         name="Plane007_cell053"
         geometry={nodes.Plane007_cell053.geometry}
         material={materials.DefaultMaterial}
         position={[-0.499, 0.972, 0.195]}
       />
-      <mesh
-        name="Plane007_cell057"
-        geometry={nodes.Plane007_cell057.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.028, 1.709, 0.04]}
-      />
+      <mesh name="Plane007_cell057" geometry={nodes.Plane007_cell057.geometry} material={materials.DefaultMaterial} position={[0.028, 1.709, 0.04]} />
       <mesh
         name="Plane007_cell058"
         geometry={nodes.Plane007_cell058.geometry}
@@ -519,12 +466,7 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[0.121, 0.82, -0.004]}
       />
-      <mesh
-        name="Plane007_cell061"
-        geometry={nodes.Plane007_cell061.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.47, 1.05, 0.211]}
-      />
+      <mesh name="Plane007_cell061" geometry={nodes.Plane007_cell061.geometry} material={materials.DefaultMaterial} position={[0.47, 1.05, 0.211]} />
       <mesh
         name="Plane007_cell062"
         geometry={nodes.Plane007_cell062.geometry}
@@ -543,12 +485,7 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[-0.056, 1.279, -0.005]}
       />
-      <mesh
-        name="Plane007_cell065"
-        geometry={nodes.Plane007_cell065.geometry}
-        material={materials.DefaultMaterial}
-        position={[-0.142, 0.06, 0.08]}
-      />
+      <mesh name="Plane007_cell065" geometry={nodes.Plane007_cell065.geometry} material={materials.DefaultMaterial} position={[-0.142, 0.06, 0.08]} />
       <mesh
         name="Plane007_cell066"
         geometry={nodes.Plane007_cell066.geometry}
@@ -603,12 +540,7 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[0.336, 1.283, 0.059]}
       />
-      <mesh
-        name="Plane007_cell075"
-        geometry={nodes.Plane007_cell075.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.162, 0.14, 0.001]}
-      />
+      <mesh name="Plane007_cell075" geometry={nodes.Plane007_cell075.geometry} material={materials.DefaultMaterial} position={[0.162, 0.14, 0.001]} />
       <mesh
         name="Plane007_cell076"
         geometry={nodes.Plane007_cell076.geometry}
@@ -675,24 +607,14 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[0.461, 1.017, 0.257]}
       />
-      <mesh
-        name="Plane007_cell087"
-        geometry={nodes.Plane007_cell087.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.067, 1.55, 0.111]}
-      />
+      <mesh name="Plane007_cell087" geometry={nodes.Plane007_cell087.geometry} material={materials.DefaultMaterial} position={[0.067, 1.55, 0.111]} />
       <mesh
         name="Plane007_cell088"
         geometry={nodes.Plane007_cell088.geometry}
         material={materials.DefaultMaterial}
         position={[-0.158, 0.168, -0.014]}
       />
-      <mesh
-        name="Plane007_cell089"
-        geometry={nodes.Plane007_cell089.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.36, 1.196, 0.074]}
-      />
+      <mesh name="Plane007_cell089" geometry={nodes.Plane007_cell089.geometry} material={materials.DefaultMaterial} position={[0.36, 1.196, 0.074]} />
       <mesh
         name="Plane007_cell090"
         geometry={nodes.Plane007_cell090.geometry}
@@ -711,24 +633,14 @@ export function Dude(props: JSX.IntrinsicElements["group"]) {
         material={materials.DefaultMaterial}
         position={[0.448, 1.085, 0.147]}
       />
-      <mesh
-        name="Plane007_cell003"
-        geometry={nodes.Plane007_cell003.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.058, 0.703, 0.03]}
-      />
+      <mesh name="Plane007_cell003" geometry={nodes.Plane007_cell003.geometry} material={materials.DefaultMaterial} position={[0.058, 0.703, 0.03]} />
       <mesh
         name="Plane007_cell055"
         geometry={nodes.Plane007_cell055.geometry}
         material={materials.DefaultMaterial}
         position={[0.135, 1.345, 0.092]}
       />
-      <mesh
-        name="Plane007_cell091"
-        geometry={nodes.Plane007_cell091.geometry}
-        material={materials.DefaultMaterial}
-        position={[0.5, 1.007, 0.205]}
-      />
+      <mesh name="Plane007_cell091" geometry={nodes.Plane007_cell091.geometry} material={materials.DefaultMaterial} position={[0.5, 1.007, 0.205]} />
       <mesh
         name="Plane007_cell095"
         geometry={nodes.Plane007_cell095.geometry}
